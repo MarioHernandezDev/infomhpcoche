@@ -1,0 +1,72 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@font-face {
+  font-family: 'Weghorst';
+  src: url('../fonts/Weghorst-Italic.otf') format('opentype');
+  font-display: swap;
+  /* La versión «Personal Used» pone marca de agua en cifras y símbolos: solo letras */
+  unicode-range: U+0020, U+0041-005A, U+0061-007A, U+00C0-00FF;
+}
+
+@theme static {
+  --font-display: 'Weghorst', var(--font-sans);
+  --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Rojo más intenso que el 400 por defecto del modo oscuro */
+:root, .dark {
+  --ui-primary: var(--color-red-500);
+}
+
+html, body {
+  overscroll-behavior-y: none;
+  background: #050507;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgb(220 38 38 / .22), transparent 70%),
+    #050507;
+  background-attachment: fixed;
+  line-height: 1.65;
+}
+
+/* Panel tipo cristal oscuro con borde rojo tenue */
+.panel {
+  background: linear-gradient(160deg, rgb(255 255 255 / .06), rgb(255 255 255 / .02));
+  border: 1px solid rgb(255 255 255 / .09);
+  border-radius: 1.75rem;
+  backdrop-filter: blur(8px);
+}
+
+.hud-label {
+  font-family: var(--font-display);
+  font-size: .75rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / .5);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  font-family: var(--font-display);
+  font-size: .9rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / .75);
+}
+.section-title::before {
+  content: '';
+  width: .35rem;
+  height: 1.1rem;
+  border-radius: 9999px;
+  background: #ef4444;
+  box-shadow: 0 0 10px rgb(239 68 68 / .7);
+}
+
+.glow-text { text-shadow: 0 0 18px rgb(239 68 68 / .55); }
+
