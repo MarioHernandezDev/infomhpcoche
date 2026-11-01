@@ -76,7 +76,7 @@ const hasFillups = computed(() => fillups.value.length > 0)
           <p class="hud-label">
             Llevas
           </p>
-          <p class="font-mono text-5xl font-bold">
+          <p class="font-num text-6xl font-semibold">
             {{ num(pace.used, 0) }}<span class="ml-2 text-lg font-normal text-white/50">km</span>
           </p>
           <p class="text-sm text-white/60">
@@ -165,7 +165,7 @@ const hasFillups = computed(() => fillups.value.length > 0)
         class="panel flex items-center justify-between gap-4 !rounded-full py-3 pl-7 pr-3"
       >
         <div>
-          <p class="font-mono text-lg font-semibold">
+          <p class="font-num text-lg font-semibold">
             {{ num(l.odometer, 0) }} km
           </p>
           <p class="text-xs text-white/50">

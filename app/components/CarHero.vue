@@ -92,7 +92,7 @@ defineProps<{
         <p class="hud-label">
           GLP
         </p>
-        <p class="font-mono text-base text-white/90">
+        <p class="font-num text-2xl font-medium text-white/90">
           {{ glp ? num(glp, 3) : '—' }} <span class="text-xs text-white/40">€/L</span>
         </p>
       </div>
@@ -100,7 +100,7 @@ defineProps<{
         <p class="hud-label">
           Gasolina
         </p>
-        <p class="font-mono text-base text-white/90">
+        <p class="font-num text-2xl font-medium text-white/90">
           {{ gasolina ? num(gasolina, 3) : '—' }} <span class="text-xs text-white/40">€/L</span>
         </p>
       </div>

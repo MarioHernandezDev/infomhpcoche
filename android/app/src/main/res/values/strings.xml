@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Mi Captur</string>
+    <string name="title_activity_main">Mi Captur</string>
+    <string name="package_name">es.mhp.captur</string>
+    <string name="custom_url_scheme">es.mhp.captur</string>
+</resources>

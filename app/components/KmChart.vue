@@ -88,7 +88,7 @@ const hp = computed(() => (hover.value != null ? series.value[hover.value] : nul
           />
         </g>
         <g
-          class="fill-white/50 font-mono"
+          class="fill-white/50 font-num"
           font-size="9"
         >
           <text
@@ -173,7 +173,7 @@ const hp = computed(() => (hover.value != null ? series.value[hover.value] : nul
         <p class="text-white/60">
           {{ fmtDate(hp.date) }}
         </p>
-        <p class="font-mono font-bold">
+        <p class="font-num font-bold">
           {{ num(hp.km, 0) }} km <span class="font-normal text-white/50">desde el inicio</span>
         </p>
       </div>

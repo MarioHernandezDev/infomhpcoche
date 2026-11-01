@@ -1,17 +1,22 @@
+// Build para la app nativa (Capacitor): SPA sin servidor y sin service worker
+const isNative = process.env.NUXT_CAPACITOR === '1'
+
 export default defineNuxtConfig({
+
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
     '@vite-pwa/nuxt',
     '@nuxtjs/supabase'
   ],
+  ssr: !isNative,
 
   devtools: { enabled: true },
 
   app: {
     head: {
       htmlAttrs: { lang: 'es' },
-      title: 'Mi Captur',
+      title: 'Captur',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
         { name: 'theme-color', content: '#050507' }
@@ -27,6 +32,17 @@ export default defineNuxtConfig({
 
   colorMode: { preference: 'dark', fallback: 'dark' },
 
+  runtimeConfig: {
+    public: {
+      // URL del despliegue en Vercel; la app nativa la usa para /api/stations
+      apiBase: ''
+    }
+  },
+
+  routeRules: {
+    '/api/**': { cors: true }
+  },
+
   compatibilityDate: '2026-06-30',
 
   eslint: {
@@ -36,9 +52,10 @@ export default defineNuxtConfig({
   },
 
   pwa: {
+    disable: isNative,
     registerType: 'autoUpdate',
     manifest: {
-      name: 'Mi Captur',
+      name: 'Captur',
       short_name: 'Captur',
       description: 'Repostajes, consumos y recordatorios de mi Renault Captur',
       lang: 'es',

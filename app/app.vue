@@ -34,7 +34,7 @@ const tabs = [
           v-for="t in tabs"
           :key="t.to"
           :to="t.to"
-          class="flex flex-col items-center gap-0.5 py-3 text-[0.6rem] tracking-wider uppercase font-mono transition"
+          class="flex flex-col items-center gap-0.5 py-3 text-[0.6rem] tracking-wider uppercase transition"
           :class="route.path === t.to ? 'text-red-400' : 'text-white/45'"
         >
           <UIcon

@@ -26,7 +26,7 @@ async function login() {
     <div class="space-y-4 text-center">
       <AppLogo class="mx-auto h-32 w-auto" />
       <h1 class="font-display text-3xl tracking-[0.1em]">
-        Mi Captur
+        Captur
       </h1>
     </div>
     <form

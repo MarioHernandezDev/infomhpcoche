@@ -12,7 +12,7 @@
 @theme static {
   --font-display: 'Weghorst', var(--font-sans);
   --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-num: 'Barlow Condensed', ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Rojo más intenso que el 400 por defecto del modo oscuro */
@@ -67,6 +67,29 @@ body {
   background: #ef4444;
   box-shadow: 0 0 10px rgb(239 68 68 / .7);
 }
+
+/* Hexágono: el borde es el propio elemento (fondo rojo) y el interior un hijo recortado igual */
+.hex, .hex > .hex-inner {
+  clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0 50%);
+}
+.hex {
+  background: linear-gradient(135deg, #ef4444, #7f1d1d);
+  padding: 2px;
+  filter: drop-shadow(0 0 10px rgb(239 68 68 / .35));
+}
+.hex > .hex-inner {
+  background: radial-gradient(circle at 50% 30%, #1c1012, #08080a);
+  height: 100%;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: .35rem;
+  text-align: center;
+}
+.hex:active { transform: scale(.96); }
+
+.font-num { font-variant-numeric: tabular-nums; }
 
 .glow-text { text-shadow: 0 0 18px rgb(239 68 68 / .55); }
 

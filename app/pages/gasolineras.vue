@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Geolocation } from '@capacitor/geolocation'
+
 interface Station {
   id: string
   brand: string
@@ -22,28 +24,30 @@ const loaded = ref(false)
 const coords = ref<{ lat: number, lng: number } | null>(null)
 watch(coords, c => c && localStorage.setItem('last-coords', JSON.stringify(c)))
 
-function getPosition() {
-  return new Promise<GeolocationPosition>((resolve, reject) =>
-    navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: false, timeout: 10000, maximumAge: 5 * 60_000 })
-  )
-}
+const apiBase = useRuntimeConfig().public.apiBase
+
+// En Android pide el permiso nativo; en el navegador usa la API web
+const getPosition = () => Geolocation.getCurrentPosition({ enableHighAccuracy: false, timeout: 10000, maximumAge: 5 * 60_000 })
 
 async function search(refreshPosition = true) {
   error.value = ''
   await withBusy(async () => {
-    try {
-      if (refreshPosition || !coords.value) {
+    if (refreshPosition || !coords.value) {
+      try {
         const p = await getPosition()
         coords.value = { lat: p.coords.latitude, lng: p.coords.longitude }
+      } catch {
+        error.value = 'No puedo acceder a tu ubicación. Concede el permiso de ubicación a la app.'
+        return
       }
-      stations.value = await $fetch<Station[]>('/api/stations', {
+    }
+    try {
+      stations.value = await $fetch<Station[]>(`${apiBase}/api/stations`, {
         query: { lat: coords.value!.lat, lng: coords.value!.lng, radius: radius.value }
       })
       loaded.value = true
-    } catch (e) {
-      error.value = e instanceof GeolocationPositionError
-        ? 'No puedo acceder a tu ubicación. Actívala en el navegador (hace falta HTTPS).'
-        : 'No se pudieron cargar las gasolineras. Inténtalo de nuevo.'
+    } catch {
+      error.value = 'No se pudieron cargar las gasolineras. Inténtalo de nuevo.'
     }
   })
 }
@@ -144,7 +148,7 @@ onMounted(() => {
           </p>
         </div>
         <div class="shrink-0 text-right">
-          <p class="font-mono text-xl font-bold text-red-400">
+          <p class="font-num text-xl font-bold text-red-400">
             {{ num(s.glp, 3) }}
           </p>
           <p class="text-[0.65rem] text-white/50">

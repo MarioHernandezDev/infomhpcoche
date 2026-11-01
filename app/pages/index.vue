@@ -21,7 +21,7 @@ const last = computed(() => fillups.value.slice(0, 3))
 
 const shortcuts = [
   { to: '/repostajes?nuevo=1', label: 'Repostar', icon: 'i-lucide-fuel' },
-  { to: '/km?nuevo=1', label: 'Apuntar km', icon: 'i-lucide-route' },
+  { to: '/km?nuevo=1', label: 'Km', icon: 'i-lucide-route' },
   { to: '/gasolineras', label: 'GLP cerca', icon: 'i-lucide-map-pin' },
   { to: '/recordatorios', label: 'Avisos', icon: 'i-lucide-bell-ring' }
 ]
@@ -68,7 +68,7 @@ async function logout() {
         <p class="hud-label">
           Cuentakilómetros
         </p>
-        <p class="font-mono text-5xl font-bold tracking-widest">
+        <p class="font-num text-6xl font-semibold tracking-wide">
           {{ num(currentKm, 0) }}<span class="ml-2 text-lg text-white/50">km</span>
         </p>
       </div>
@@ -92,18 +92,20 @@ async function logout() {
       />
     </div>
 
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-4 gap-2">
       <NuxtLink
-        v-for="s in shortcuts"
-        :key="s.to"
-        :to="s.to"
-        class="flex items-center justify-center gap-3 rounded-full border border-red-500/40 bg-red-500/10 px-5 py-4 text-sm font-medium transition active:scale-95 hover:bg-red-500/20"
+        v-for="x in shortcuts"
+        :key="x.to"
+        :to="x.to"
+        class="hex block aspect-[1/1.05]"
       >
-        <UIcon
-          :name="s.icon"
-          class="size-5 shrink-0 text-red-400"
-        />
-        <span class="font-display tracking-[0.12em] uppercase">{{ s.label }}</span>
+        <div class="hex-inner">
+          <UIcon
+            :name="x.icon"
+            class="size-6 text-red-400"
+          />
+          <span class="font-display text-[0.65rem] uppercase tracking-[0.12em] text-white/85">{{ x.label }}</span>
+        </div>
       </NuxtLink>
     </div>
 
@@ -174,7 +176,7 @@ async function logout() {
               {{ fmtDate(f.date) }} · {{ num(f.odometer, 0) }} km
             </p>
           </div>
-          <p class="font-mono font-semibold">
+          <p class="font-num font-semibold">
             {{ eur(f.total) }}
           </p>
         </div>

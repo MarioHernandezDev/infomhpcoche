@@ -24,7 +24,7 @@ const dot = { success: 'bg-emerald-400', warning: 'bg-amber-400', error: 'bg-red
       />
       <span class="hud-label">{{ label }}</span>
     </span>
-    <span class="font-mono text-2xl font-bold">
+    <span class="font-num text-3xl font-semibold">
       {{ value }}<span
         v-if="unit"
         class="ml-1.5 text-sm font-normal text-white/50"
