@@ -37,3 +37,9 @@ export function computeStats(fillups: Fillup[]) {
     gasPer100: (litersOf('gasolina') / km) * 100
   }
 }
+
+export function addMonths(iso: string, months: number) {
+  const d = new Date(iso + 'T00:00:00')
+  d.setMonth(d.getMonth() + months)
+  return localISO(d)
+}

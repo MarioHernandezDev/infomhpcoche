@@ -8,7 +8,7 @@ export default withNuxt(
   betterTailwindcss.configs['correctness-error'],
   {
     rules: {
-      'better-tailwindcss/no-unknown-classes': ['error', { ignore: ['^panel$', '^hud-label$', '^glow-text$', '^section-title$', '^hex$', '^hex-inner$'] }]
+      'better-tailwindcss/no-unknown-classes': ['error', { ignore: ['^panel$', '^hud-label$', '^glow-text$', '^section-title$', '^ch$', '^ghost$', '^ghost-ch$', '^ghost-text$', '^glow$', '^arc-wrap$', '^arc-ticks$', '^arc-track$', '^arc-progress$', '^streak$', '^car$', '^car-img$', '^car-reflection$', '^flare$', '^hero-chip$', '^pace-mark$', '^hero-fade$', '^hex$', '^hex-inner$'] }]
     },
     settings: {
       'better-tailwindcss': {

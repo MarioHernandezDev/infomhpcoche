@@ -24,10 +24,14 @@ async function login() {
 <template>
   <div class="space-y-10 pt-16">
     <div class="space-y-4 text-center">
-      <AppLogo class="mx-auto h-32 w-auto" />
-      <h1 class="font-display text-3xl tracking-[0.1em]">
-        Captur
-      </h1>
+      <AppLogo
+        v-reveal
+        class="mx-auto h-32 w-auto"
+      />
+      <AnimTitle
+        text="CAPTUR"
+        class="font-display text-3xl tracking-[0.1em] glow-text"
+      />
     </div>
     <form
       class="space-y-6"

@@ -20,14 +20,14 @@ const tabs = [
     <AppLoader />
 
     <div class="min-h-dvh pb-28">
-      <UContainer class="max-w-xl py-8">
+      <UContainer class="max-w-xl pb-8 pt-[calc(env(safe-area-inset-top,0px)+2.5rem)]">
         <NuxtPage />
       </UContainer>
     </div>
 
     <nav
       v-if="user && route.path !== '/login'"
-      class="fixed bottom-0 inset-x-0 z-40 border-t border-white/10 bg-black/70 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]"
+      class="fixed bottom-0 inset-x-0 z-40 border-t border-white/10 bg-black/90 pb-[env(safe-area-inset-bottom)]"
     >
       <div class="mx-auto max-w-xl grid grid-cols-5">
         <NuxtLink

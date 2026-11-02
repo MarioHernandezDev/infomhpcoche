@@ -58,9 +58,10 @@ const hasFillups = computed(() => fillups.value.length > 0)
         <p class="hud-label">
           Límite del contrato
         </p>
-        <h1 class="font-display text-3xl tracking-[0.1em] glow-text">
-          MIS KM
-        </h1>
+        <AnimTitle
+          text="MIS KM"
+          class="font-display text-3xl tracking-[0.1em] glow-text"
+        />
       </div>
       <UButton
         icon="i-lucide-plus"
@@ -71,7 +72,10 @@ const hasFillups = computed(() => fillups.value.length > 0)
     </div>
 
     <template v-if="pace">
-      <div class="panel space-y-6 p-7">
+      <div
+        v-reveal
+        class="panel space-y-6 p-7"
+      >
         <div class="space-y-2">
           <p class="hud-label">
             Llevas
@@ -128,7 +132,10 @@ const hasFillups = computed(() => fillups.value.length > 0)
         />
       </div>
 
-      <div class="panel space-y-6 p-7">
+      <div
+        v-reveal
+        class="panel space-y-6 p-7"
+      >
         <p class="section-title">
           Evolución
         </p>
@@ -160,8 +167,9 @@ const hasFillups = computed(() => fillups.value.length > 0)
         Registros
       </p>
       <div
-        v-for="l in logs"
+        v-for="(l, i) in logs"
         :key="l.id"
+        v-reveal="i"
         class="panel flex items-center justify-between gap-4 !rounded-full py-3 pl-7 pr-3"
       >
         <div>

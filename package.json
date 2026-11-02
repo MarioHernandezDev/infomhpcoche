@@ -10,12 +10,14 @@
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
     "build:android": "NUXT_CAPACITOR=1 nuxt generate && cap sync android",
-    "android": "cap open android"
+    "android": "cap open android",
+    "apk": "bash scripts/build-apk.sh"
   },
   "dependencies": {
     "@capacitor/android": "^8.6.0",
     "@capacitor/core": "^8.6.0",
     "@capacitor/geolocation": "^8.2.4",
+    "@capacitor/local-notifications": "^8.3.1",
     "@capacitor/splash-screen": "^8.0.2",
     "@capacitor/status-bar": "^8.0.4",
     "@iconify-json/lucide": "^1.2.147",
@@ -23,6 +25,8 @@
     "@nuxt/ui": "^4.12.0",
     "@nuxtjs/supabase": "^2.1.0",
     "@vite-pwa/nuxt": "^1.1.1",
+    "gsap": "^3.15.0",
+    "leaflet": "^1.9.4",
     "nuxt": "^4.6.3",
     "tailwindcss": "^4.3.3",
     "zod": "^4.6.7"
@@ -30,6 +34,7 @@
   "devDependencies": {
     "@capacitor/cli": "^8.6.0",
     "@nuxt/eslint": "^1.17.0",
+    "@types/leaflet": "^1.9.22",
     "eslint": "^10.13.0",
     "eslint-plugin-better-tailwindcss": "^4.10.0",
     "typescript": "^6.0.3",

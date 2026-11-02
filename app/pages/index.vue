@@ -2,9 +2,12 @@
 const { fillups, load } = useFillups()
 const { reminders, load: loadReminders, status } = useReminders()
 const { load: loadOdometer, currentKm, pace } = useOdometer()
+const { favorites, drops, load: loadFavorites, checkPrices } = useFavorites()
 const client = useSupabaseClient()
 
-await Promise.all([load(), loadReminders(), loadOdometer()])
+await Promise.all([load(), loadReminders(), loadOdometer(), loadFavorites()])
+// Las bajadas de GLP en favoritas se comprueban en segundo plano
+onMounted(checkPrices)
 
 const stats = computed(() => computeStats(fillups.value))
 const lastPrice = (fuel: 'glp' | 'gasolina') => fillups.value.find(f => f.fuel === fuel)?.price_per_liter ?? null
@@ -36,15 +39,25 @@ async function logout() {
   <div class="space-y-12">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-4">
-        <AppLogo class="h-16 w-auto shrink-0" />
+        <AppLogo
+          v-reveal
+          class="h-16 w-auto shrink-0"
+        />
         <div class="space-y-1">
-          <p class="hud-label">
+          <p
+            v-reveal
+            class="hud-label"
+          >
             Renault
           </p>
-          <h1 class="font-display text-4xl tracking-[0.1em] glow-text leading-none">
-            CAPTUR
-          </h1>
-          <p class="hud-label !text-red-400">
+          <AnimTitle
+            text="CAPTUR"
+            class="font-display text-4xl tracking-[0.1em] glow-text leading-none"
+          />
+          <p
+            v-reveal="1"
+            class="hud-label !text-red-400"
+          >
             Techno · Eco-G 120
           </p>
         </div>
@@ -58,29 +71,33 @@ async function logout() {
       />
     </div>
 
-    <div class="space-y-8">
-      <CarHero
-        :glp="lastPrice('glp')"
-        :gasolina="lastPrice('gasolina')"
-      />
-
-      <div class="space-y-2 text-center">
-        <p class="hud-label">
-          Cuentakilómetros
-        </p>
-        <p class="font-num text-6xl font-semibold tracking-wide">
-          {{ num(currentKm, 0) }}<span class="ml-2 text-lg text-white/50">km</span>
-        </p>
-      </div>
-    </div>
+    <CarHero
+      :km="currentKm"
+      :glp="lastPrice('glp')"
+      :gasolina="lastPrice('gasolina')"
+      :used="pace?.used"
+      :allowance="pace?.allowanceAtEnd"
+      :allowed-to-date="pace?.allowedToDate"
+    />
 
     <div
-      v-if="alerts.length"
+      v-if="alerts.length || drops.length"
       class="space-y-4"
     >
       <UAlert
+        v-for="d in drops"
+        :key="d.station.id"
+        v-reveal
+        color="success"
+        variant="subtle"
+        icon="i-lucide-trending-down"
+        :title="`Bajó el GLP en ${d.station.name}`"
+        :description="`${num(d.from, 3)} → ${num(d.to, 3)} €/L`"
+      />
+      <UAlert
         v-for="a in alerts"
         :key="a.r.id"
+        v-reveal
         :color="a.s!.level === 'error' ? 'error' : 'warning'"
         variant="subtle"
         icon="i-lucide-triangle-alert"
@@ -94,8 +111,9 @@ async function logout() {
 
     <div class="grid grid-cols-4 gap-2">
       <NuxtLink
-        v-for="x in shortcuts"
+        v-for="(x, i) in shortcuts"
         :key="x.to"
+        v-reveal="i"
         :to="x.to"
         class="hex block aspect-[1/1.05]"
       >
@@ -110,14 +128,17 @@ async function logout() {
     </div>
 
     <div class="space-y-5">
-      <p class="section-title">
+      <p
+        v-reveal
+        class="section-title"
+      >
         Tu coche en cifras
       </p>
       <div class="space-y-4">
         <StatPill
           v-if="pace"
           label="Ritmo anual"
-          :value="num(pace.projection, 0)"
+          :value="Math.round(pace.projection)"
           unit="km/año"
           :tone="pace.level"
           to="/km"
@@ -130,25 +151,33 @@ async function logout() {
         />
         <StatPill
           label="Gasto del mes"
-          :value="eur(monthCost)"
+          :value="monthCost"
+          :decimals="2"
+          suffix=" €"
         />
         <StatPill
           label="Coste por km"
-          :value="stats ? num(stats.costPerKm, 3) : '—'"
+          :value="stats ? stats.costPerKm : '—'"
+          :decimals="3"
           unit="€/km"
         />
         <StatPill
           label="Consumo GLP"
-          :value="stats ? num(stats.glpPer100) : '—'"
+          :value="stats ? stats.glpPer100 : '—'"
+          :decimals="1"
           unit="L/100 km"
         />
         <StatPill
           label="Consumo gasolina"
-          :value="stats ? num(stats.gasPer100) : '—'"
+          :value="stats ? stats.gasPer100 : '—'"
+          :decimals="1"
           unit="L/100 km"
         />
       </div>
-      <p class="text-xs leading-relaxed text-white/50">
+      <p
+        v-reveal
+        class="text-xs leading-relaxed text-white/50"
+      >
         <template v-if="stats">
           Al ser bifuel, los L/100 de cada combustible se calculan sobre el total de km.
         </template>
@@ -159,13 +188,17 @@ async function logout() {
     </div>
 
     <div class="space-y-5">
-      <p class="section-title">
+      <p
+        v-reveal
+        class="section-title"
+      >
         Últimos repostajes
       </p>
       <div class="space-y-4">
         <div
-          v-for="f in last"
+          v-for="(f, i) in last"
           :key="f.id"
+          v-reveal="i"
           class="panel flex items-center justify-between gap-4 !rounded-full px-8 py-4"
         >
           <div>
@@ -176,7 +209,7 @@ async function logout() {
               {{ fmtDate(f.date) }} · {{ num(f.odometer, 0) }} km
             </p>
           </div>
-          <p class="font-num font-semibold">
+          <p class="font-num text-xl font-semibold">
             {{ eur(f.total) }}
           </p>
         </div>
@@ -186,6 +219,12 @@ async function logout() {
         class="text-sm text-white/50"
       >
         Aún no hay repostajes.
+      </p>
+      <p
+        v-if="favorites.length"
+        class="text-xs text-white/40"
+      >
+        Vigilando {{ favorites.length }} gasolinera{{ favorites.length > 1 ? 's' : '' }} favorita{{ favorites.length > 1 ? 's' : '' }}.
       </p>
     </div>
   </div>

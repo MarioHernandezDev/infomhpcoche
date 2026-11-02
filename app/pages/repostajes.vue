@@ -57,11 +57,20 @@ async function save() {
 </script>
 
 <template>
-  <div class="space-y-6">
+  <div class="space-y-8">
     <div class="flex items-center justify-between">
-      <h1 class="font-display text-3xl tracking-[0.1em]">
-        Repostajes
-      </h1>
+      <div class="space-y-1">
+        <p
+          v-reveal
+          class="hud-label"
+        >
+          Historial de
+        </p>
+        <AnimTitle
+          text="REPOSTAJES"
+          class="font-display text-3xl tracking-[0.1em] glow-text"
+        />
+      </div>
       <UButton
         icon="i-lucide-plus"
         @click="open = true"
@@ -71,8 +80,9 @@ async function save() {
     </div>
 
     <UCard
-      v-for="f in fillups"
+      v-for="(f, i) in fillups"
       :key="f.id"
+      v-reveal="i"
     >
       <div class="flex justify-between gap-2">
         <div>
